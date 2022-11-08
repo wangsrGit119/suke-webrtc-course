@@ -1,0 +1,28 @@
+{
+  "name": "webrtc-link-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.3.6",
+    "@mediapipe/control_utils": "^0.6.1629159505",
+    "@mediapipe/selfie_segmentation": "^0.1.1632777926",
+    "core-js": "^2.6.5",
+    "danmaku": "^2.0.4",
+    "element-ui": "^2.15.6",
+    "events": "^3.3.0",
+    "socket.io-client": "^4.5.1",
+    "vue": "^2.6.10",
+    "vue-router": "^3.2.0",
+    "vue-select-image": "^1.9.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "__npminstall_done": false
+}

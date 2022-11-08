@@ -1,0 +1,55 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+
+let routes =  [
+	{
+	  path: '/',
+	  name: 'home',
+	  component: () => import("@/views/demo03-one2many"),
+	},
+	{
+	  path: '/demo01',
+	  name: 'demo01',
+	  component: () => import("@/views/demo01"),
+	},
+	{
+	  path: '/demo02',
+	  name: 'demo02',
+	  component: () => import("@/views/demo02"),
+	},
+	{
+	  path: '/virtualbg',
+	  name: 'virtualbg',
+	  component: () => import("@/views/virtualbg"),
+	},
+	{
+	  path: '/demo03-one2one',
+	  name: 'demo03-one2one',
+	  component: () => import("@/views/demo03-one2one"),
+	},
+	{
+	  path: '/demo03-one2many',
+	  name: 'demo03-one2many',
+	  component: () => import("@/views/demo03-one2many"),
+	},
+	{
+	  path: '/demo03-many2many',
+	  name: 'demo03-many2many',
+	  component: () => import("@/views/demo03-many2many"),
+	},
+	
+]
+
+
+const router = new Router({
+  mode: 'history', // 去掉url中的#
+  scrollBehavior: () => ({ y: 0 }),
+  routes: routes
+  
+})
+
+
+export default router
