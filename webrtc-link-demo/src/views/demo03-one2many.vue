@@ -35,7 +35,7 @@
 			</el-col>
 			<el-col :span="6" v-if="formInline.pub === 'pub'">
 				<div style="height: 75vh;overflow-y: auto;display: flex;flex-direction: row;width: 100%;">
-					<div style="width: 200px;">
+					<div style="width: 200px;text-align: left;padding: 20px;">
 						<label>直播开始后点击背景即可切换直播背景</label>
 						<vue-select-image
 						  :dataImages="bgUrls"
@@ -45,7 +45,7 @@
 					<div id="danmucontainer" style="width: 100px;height: 50vh;"></div>
 				</div>
 			</el-col>
-			<el-col :span="12">
+			<el-col :span="10">
 				<el-row>
 					<div id="allVideo" >
 						<div v-if="formInline.pub !== 'pub'" id="publisherVideoParent"  style="position: relative;width: 300px;height: 250px;">
@@ -60,9 +60,9 @@
 					</div>
 				</el-row>
 				<el-row>
-					<div style="width: 70%;display: flex;flex-direction: row;height: auto;">
+					<div style="width: 50%;display: flex;flex-direction: row;height: auto;">
 						<el-input v-model="message"></el-input>
-						<el-button @click="sendMsgToPub()">发送</el-button>
+						<el-button @click="sendMsgToPub()">发送弹幕</el-button>
 					</div>
 				</el-row>
 			</el-col>
@@ -648,6 +648,8 @@
 	.container{
 		margin: 20px 0 20px 0;
 		padding: 0;
+		width: 98%;
+		height: 90vh;
 	}
 	/* 所有流 */
 	#allVideo{

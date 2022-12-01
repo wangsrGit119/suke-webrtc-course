@@ -1,5 +1,5 @@
 <template>
-	<div style="width: 100%;height: auto;">
+	<div style="width: 95%;height: auto;margin-top: 30px;">
 		<el-row :gutter="20">
 			<el-col :span="24">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -24,10 +24,10 @@
 				</el-form>
 			</el-col>
 		</el-row>
-		<el-row>
-			<div style="display: flex;flex-direction: row;">
+		<el-row style="width: 100%;">
+			<div style="width: 100%;display: flex;flex-direction: row;align-items: center;justify-content: center;">
 				<video id="localdemo01" autoplay controls muted></video>
-				<canvas id="output_canvas" class="output_canvas" width="400px" height="300px"></canvas>
+				<canvas id="output_canvas" class="output_canvas" width="500px" height="400px"></canvas>
 			</div>
 		</el-row>
 	</div>
@@ -96,7 +96,7 @@
 		
 		        })
 				.then(()=>{
-					// console.log(localDevice)
+					console.log(localDevice)
 					// console.log("audioIn",localDevice.audioIn)
 					// console.log("audioOut",localDevice.audioOut)
 					// console.log("videoIn",localDevice.videoIn)
@@ -121,6 +121,19 @@
 			}
 		},
 		created() {
+			this.$notify({
+			  title: '温馨提示',
+			  type:'warning',
+			  message: '请在代码中查看模型静态文件夹：virtualmodel,并将当前文件夹映射到静态可访问地址',
+			  duration: 0
+			});
+			this.$notify({
+			  title: '温馨提示',
+			  type:'warning',
+			  message: '点击确定后没有出现虚拟背景请F12查看控制台，大概率是你虚拟背景模型地址没有映射出来',
+			  duration: 0,
+			  position: 'bottom-right'
+			});
 			initInnerLocalDevice()
 			this.localDevice = localDevice;
 			
@@ -130,36 +143,7 @@
 			this.initVb()
 		},
 		methods:{
-			initVb(){
-				canvasElement = document.getElementById('output_canvas');
-				canvasCtx = canvasElement.getContext('2d');
-				image = new Image();
-				image.src = this.meimage
-				selfieSegmentation = new SFS.SelfieSegmentation({locateFile: (file) => {
-					console.log(file);
-					return `http://192.168.101.138:8081/${file}`;//ng  代理模型文件夹
-				  // return `https://cdn.jsdelivr.'net/npm/@mediapipe/selfie_segmentation@0.1.1632777926/${file}`;
-				}});				
-				selfieSegmentation.setOptions({
-					modelSelection: 1,
-					minDetectionConfidence: 0.5,
-					minTrackingConfidence: 0.5,
-				});
-				selfieSegmentation.onResults(this.handleResults);
-			},
-			handleResults(results) {
-				// Prepare the new frame
-				canvasCtx.save();
-				canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-				canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
-				// Draw the image as the new background, and the segmented video on top of that
-				canvasCtx.globalCompositeOperation = 'source-out';
-				canvasCtx.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvasElement.width, canvasElement.height);
-				canvasCtx.globalCompositeOperation = 'destination-atop';
-				canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-				// Done
-				canvasCtx.restore();
-			},
+			
 			async onSubmit(){
 				
 				let domId = "localdemo01"
@@ -213,8 +197,41 @@
 			    //被调用方法前面有，此处不再重复
 			    return await this.getLocalUserMedia(constraints).catch(handleError);
 			},
+			//初始化模型
+			initVb(){
+				console.log("模型加载初始化")
+				canvasElement = document.getElementById('output_canvas');
+				canvasCtx = canvasElement.getContext('2d');
+				image = new Image();
+				image.src = this.meimage
+				selfieSegmentation = new SFS.SelfieSegmentation({locateFile: (file) => {
+					console.log(file);
+					return `http://127.0.0.1:8081/${file}`;//ng  代理模型文件夹
+				  // return `https://cdn.jsdelivr.'net/npm/@mediapipe/selfie_segmentation@0.1.1632777926/${file}`;
+				}});				
+				selfieSegmentation.setOptions({
+					modelSelection: 1,
+					minDetectionConfidence: 0.5,
+					minTrackingConfidence: 0.5,
+				});
+				selfieSegmentation.onResults(this.handleResults);
+			},
+			//我们自定义的 处理背景的
+			handleResults(results) {
+				// Prepare the new frame
+				canvasCtx.save();
+				canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+				canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+				// Draw the image as the new background, and the segmented video on top of that
+				canvasCtx.globalCompositeOperation = 'source-out';
+				canvasCtx.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvasElement.width, canvasElement.height);
+				canvasCtx.globalCompositeOperation = 'destination-atop';
+				canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+				// Done
+				canvasCtx.restore();
+			},
+			//这个时官网的 我们暂时不用
 			onResults(results) {
-				console.log(results);
 			  canvasCtx.save();
 			  canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 			  canvasCtx.drawImage(results.segmentationMask, 0, 0,
@@ -249,7 +266,7 @@
 						}
 						lastTime = now;
 						//无限定时循环 退出记得取消 cancelAnimationFrame() 
-						this.rfId = requestAnimationFrame(getFrames);
+						that.rfId = requestAnimationFrame(getFrames);
 					};
 					getFrames()
 				})
@@ -263,8 +280,11 @@
 
 <style scoped>
 	#localdemo01{
-		width: 400px;
-		height: 300px;
+		width: 500px;
+		height: 400px;
 		
+	}
+	#output_canvas{
+		background-color: aqua;
 	}
 </style>

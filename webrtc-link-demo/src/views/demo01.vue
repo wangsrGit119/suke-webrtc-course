@@ -1,22 +1,31 @@
 <template>
-	<div style="width: 100%;height: 100%;">
+	<div style="width: 98%;height: 98%;margin-top: 20px;">
 		<el-row :gutter="20">
 			<el-col :span="24">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline">
-				  <el-form-item label="摄像头">
+				  <el-form-item label="选择摄像头">
 				    <el-select v-model="formInline.videoId" placeholder="摄像头">
 				      <el-option v-for="(item,index) in localDevice.videoIn " :key="index" :label="item.label" :value="item.id"></el-option>
 				    </el-select>
 				  </el-form-item>
-				  <el-form-item label="麦克风">
+				  <el-form-item label="选择麦克风">
 				    <el-select v-model="formInline.audioInId" placeholder="麦克风">
 				      <el-option v-for="(item,index) in localDevice.audioIn " :key="index" :label="item.label" :value="item.id"></el-option>
 				    </el-select>
 				  </el-form-item>
-				  <el-form-item label="听筒">
+				  <el-form-item label="选择听筒">
 				    <el-select v-model="formInline.audioOutId" placeholder="听筒">
 				      <el-option v-for="(item,index) in localDevice.audioOut " :key="index" :label="item.label" :value="item.id"></el-option>
 				    </el-select>
+				  </el-form-item>
+				  <el-form-item label="分辨率:Width">
+				    <el-input v-model="formInline.width"></el-input>
+				  </el-form-item>
+				  <el-form-item label="分辨率:Height">
+				    <el-input v-model="formInline.height"></el-input>
+				  </el-form-item>
+				  <el-form-item label="FPS">
+				    <el-input v-model="formInline.frameRate"></el-input>
 				  </el-form-item>
 				  <el-form-item>
 				    <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -105,8 +114,12 @@
 				formInline:{
 					videoId:undefined,
 					audioInId:undefined,
-					audioOutId:undefined
-				}
+					audioOutId:undefined,
+					width:1080,
+					height:720,
+					frameRate:24,
+				},
+				
 			}
 		},
 		created() {
@@ -152,9 +165,9 @@
 			        audio: {deviceId: audioId ? {exact: audioId} : undefined},
 			        video: {
 			            deviceId: videoId ? {exact: videoId} : undefined,
-			            width:1920,
-			            height:1080,
-			            frameRate: { ideal: 10, max: 15 }
+			            width:this.formInline.width,
+			            height:this.formInline.height,
+			            frameRate: { ideal: this.formInline.frameRate, max: 24 }
 			        }
 			    };
 			    if (window.stream) {

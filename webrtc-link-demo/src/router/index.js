@@ -8,7 +8,7 @@ let routes =  [
 	{
 	  path: '/',
 	  name: 'home',
-	  component: () => import("@/views/demo03-one2many"),
+	  component: () => import("@/views/home"),
 	},
 	{
 	  path: '/demo01',
@@ -39,6 +39,11 @@ let routes =  [
 	  path: '/demo03-many2many',
 	  name: 'demo03-many2many',
 	  component: () => import("@/views/demo03-many2many"),
+	},
+	{
+	  path: '/demo04-janus-01',
+	  name: 'demo04-janus-01',
+	  component: () => import("@/views/demo04-janus-01.vue"),
 	},
 	
 ]

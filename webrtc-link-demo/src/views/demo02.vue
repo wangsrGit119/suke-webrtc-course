@@ -1,11 +1,10 @@
 <template>
-	<div style="width: 100%;height: 100%;">
+	<div style="width: 95%;height: 80vh;margin-top: 30px;">
 		<el-row :gutter="20">
 			<el-col :span="24">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline">
-				  
 				  <el-form-item>
-				    <el-button type="primary" @click="onSubmit">确定</el-button>
+				    <el-button type="primary" @click="onSubmit">点击获取当前屏幕分享</el-button>
 				  </el-form-item>
 				</el-form>
 			</el-col>

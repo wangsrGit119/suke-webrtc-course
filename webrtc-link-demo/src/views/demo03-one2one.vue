@@ -1,12 +1,12 @@
 <template>
-	<div style="width: 100%;height: 100%;">
+	<div style="width: 98%;height: 98vh;margin-top: 30px;">
 		<el-row :gutter="20">
 			<el-col :span="6">
 				<div style="width: 100%;height: 800px;"  >
 					<ul v-for="(item,index) in roomUserList" :key="index">
 						<el-tag size="mini" @click="getStats"  type="success">{{'用户'+item.nickname}}</el-tag>
 						<el-tag v-if="userInfo.userId === item.userId" type="danger" size="mini" @click="changeBitRate()"  >增加比特率</el-tag>
-						<el-button size="mini" type="primary"@click="call(item)">通话</el-button>
+						<el-button size="mini" type="primary" v-if="userInfo.userId !== item.userId" @click="call(item)">通话</el-button>
 						<el-button v-if="userInfo.userId === item.userId" size="mini" type="danger"@click="openVideoOrNot">切换</el-button>
 					</ul>
 				</div>
@@ -14,19 +14,20 @@
 			<el-col :span="18">
 	
 				<el-row>
-					<div style="width: 400px;height: 200px;">
+					<div style="width: 800px;height: 200px;display: flex;flex-direction: row;align-items: center;">
 						<el-form  :model="formInline" label-width="250px" class="demo-form-inline">
 						  <el-form-item label="发送消息">
 						    <el-input v-model="formInline.rtcmessage"  placeholder="消息"></el-input>
 						  </el-form-item>
-						  <el-form-item label="展示远程消息">
-						    <el-input readonly type="textarea" v-model="formInline.rtcmessageRes" placeholder="远程消息监听中"></el-input>
+						  <el-form-item label="远端消息">
+						    <div>{{formInline.rtcmessageRes}}</div>
 						  </el-form-item>
+						  						
 						  <el-form-item>
 						    <el-button type="primary" @click="sendMessageUserRtcChannel">点击发送</el-button>
 						  </el-form-item>
 						</el-form>
-						
+
 					</div>
 				</el-row>
 				<el-row>
