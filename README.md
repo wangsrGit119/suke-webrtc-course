@@ -1,6 +1,6 @@
 <p align="center">
     <img src="https://img.shields.io/badge/suke-WebRTC--Course-red"
-        height="100">
+        height="60">
 </p>
 <p align="center">
     <a href="https://github.com/wangsrGit119/suke-webrtc-course" alt="Activity">
