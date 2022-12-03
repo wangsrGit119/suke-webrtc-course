@@ -11,12 +11,12 @@
 			<el-col :span="24">
 				<el-row>
 					<div id="allVideo" style="display: flex;flex-direction: row;justify-content: flex-start;flex-wrap: wrap;">
-						<video id="localdemo01" autoplay  muted></video>
+						<video id="localdemo01" @click="getLocalStreamSettings()" autoplay  muted></video>
 					</div>
 				</el-row>
 				<el-row>
 					<div class="frame-videos" id="frame-videos">
-						<div v-if="formInline.userId !== item.userId" :id="item.userId" v-for="(item,index) in roomUserList" :ref="item.userId" :key="item.userId">
+						<div v-if="formInline.userId !== item.userId" :id="item.userId" @click="getRtcPeerInfo(item.userId)" v-for="(item,index) in roomUserList" :ref="item.userId" :key="item.userId">
 							<label>
 							{{item.nickname}}
 							 <span style="color: bisque;">{{item.bitrate}}</span>
@@ -60,11 +60,16 @@
 			        <el-option v-for="(item,index) in localDevice.videoIn " :key="index" :label="item.label" :value="item.id"></el-option>
 			      </el-select>
 			    </el-form-item>
-			  			<el-form-item label="麦克风" prop="audioInId">
-			  			  <el-select v-model="formInline.audioInId" placeholder="麦克风">
-			  			    <el-option v-for="(item,index) in localDevice.audioIn " :key="index" :label="item.label" :value="item.id"></el-option>
-			  			  </el-select>
-			  			</el-form-item>
+				<el-form-item label="麦克风" prop="audioInId">
+				  <el-select v-model="formInline.audioInId" placeholder="麦克风">
+					<el-option v-for="(item,index) in localDevice.audioIn " :key="index" :label="item.label" :value="item.id"></el-option>
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="分辨率" prop="rao">
+				  <el-select v-model="formInline.rao" placeholder="分辨率">
+					<el-option v-for="(item,index) in raoList " :key="index" :label="item" :value="item"></el-option>
+				  </el-select>
+				</el-form-item>
 			    <el-form-item>
 			        <el-button style="margin-left: 70px;" type="warning" @click="joinRoom('ruleForm')">进入</el-button>
 			    </el-form-item>
@@ -184,6 +189,9 @@
 					audioInId: [
 						{ required: true, message: '请选择麦克风', trigger: 'change' }
 					  ],
+				  rao: [
+					{ required: true, message: '请选择分辨率', trigger: 'change' }
+					],
 				},
 				formInline:{
 					rtcmessage:undefined,
@@ -192,8 +200,16 @@
 					audioInId:undefined,
 					nickname:undefined,//展示昵称
 					roomId:undefined,//房间号
+					rao:'640X480'
 				
 				},
+				raoList:[
+					'1920X1080',
+					'1080X720',
+					'720X640',
+					'640X480',
+					'480X320'
+				],
 				statsTimerMap:new Map(),//计时器
 				lastPeerStatsMap:new Map(),//上一次统计信息
 				localStream:undefined,
@@ -212,9 +228,15 @@
 			 initInnerLocalDevice()
 			 this.localDevice = localDevice
 			 console.log(localDevice)
-			 this.formInline.nickname = getParams("nickname");
-			 this.formInline.roomId = getParams("roomId");
-			 this.formInline.userId = getParams("userId");
+			 let usession = window.sessionStorage.getItem("userInfo")
+			 if(usession){
+				 usession = JSON.parse(usession)
+				 this.formInline = usession
+			 }else{
+				 this.formInline.nickname = getParams("nickname");
+				 this.formInline.roomId = getParams("roomId");
+				 this.formInline.userId = getParams("userId");
+			 }
 			 fpPromise
 			     .then(fp => fp.get())
 			     .then(result => {
@@ -228,11 +250,48 @@
 				this.$refs[formName].validate((valid) => {
 					  if (valid) {
 						this.init()
+						window.sessionStorage.setItem("userInfo",JSON.stringify(this.formInline))
 					  } else {
 						console.log('error submit!!');
 						return false;
 					  }
 					});
+			},
+			async getRtcPeerInfo(uid){
+				let pcKey = this.formInline.userId+'-'+uid
+				let p = RtcPcMaps.get(pcKey)
+				await this.setBiterate(uid)
+				if(p){
+					const senders = p.getSenders();
+					const sender = senders.find((s) => s.track.kind === 'video')
+					console.log("设置前参数",sender.track.getSettings())
+					let height = 200
+					let frameRate = 30
+					let aspectRatio =  2.777777778
+					await sender.track.applyConstraints({ height ,frameRate,aspectRatio});
+					const receivers = p.getReceivers();
+					const receive = receivers.find((s) => s.track.kind === 'video')
+					console.log("远程流画面设置",receive.track.getSettings())
+					
+				}
+			},
+			async setBiterate(uid){
+				let pcKey = this.formInline.userId+'-'+uid
+				let pc = RtcPcMaps.get(pcKey)
+				if(pc){
+					let senders = pc.getSenders()
+					let sender = senders.find((s) => s.track.kind === 'video')
+					const params = sender.getParameters();
+					//比特率设置
+					let bitrate = 100*1000
+					params.encodings[0].maxBitrate = bitrate;
+					 //同步参数
+					await sender.setParameters(params);
+				}	
+			},
+			async getLocalStreamSettings(){
+				let videoTrack = this.localStream.getVideoTracks()[0]
+				console.log("本地媒体流最新参数",videoTrack.getSettings())
 			},
 			async setDomVideoStream(domId,newStream){
 				let video = document.getElementById(domId)
@@ -261,7 +320,7 @@
 				if(!video){
 					video = document.createElement('video')
 					video.id = id
-					video.controls = true;
+					video.controls = false;
 					video.autoplay = true;
 					video.muted = false
 					video.style.width = '100%'
@@ -379,12 +438,15 @@
 			async getLocalUserMedia(){
 				const audioId = this.formInline.audioInId
 				const videoId = this.formInline.videoId
+				let width = this.formInline.rao.split('X')[0] 
+				let height = this.formInline.rao.split('X')[1] 
+				console.log(width,height)
 				const constraints = {
 				    audio: {deviceId: audioId ? {exact: audioId} : undefined},
 				    video: {
 				        deviceId: videoId ? {exact: videoId} : undefined,
-				        width:720,
-				        height:480,
+				        width:width,
+				        height:height,
 				        frameRate: { ideal: 20, max: 24 }
 				    }
 				};
@@ -445,8 +507,8 @@
 					send.track.enabled = b
 					this.mediaStatus.audio = send.track.enabled
 				})
-				// this.localStream.getAudioTracks()[0].enabled = b
-				// this.mediaStatus.audio = b
+				this.localStream.getAudioTracks()[0].enabled = b
+				this.mediaStatus.audio = b
 			},
 			videoControl(b){
 				RtcPcMaps.forEach((v,k) => {
@@ -455,8 +517,8 @@
 					send.track.enabled = b
 					this.mediaStatus.video = send.track.enabled
 				})
-				// this.localStream.getVideoTracks()[0].enabled = b
-				// this.mediaStatus.video = b
+				this.localStream.getVideoTracks()[0].enabled = b
+				this.mediaStatus.video = b
 			},
 			initMediaStatus(){
 				this.localStream.getVideoTracks()[0].enabled = false
@@ -561,6 +623,7 @@
 				let stream = video.srcObject
 				return stream.getAudioTracks()[0].enabled
 			},
+			
 		},
 		watch: {
 		    
