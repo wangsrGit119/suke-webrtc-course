@@ -145,7 +145,7 @@
 			initVideoCallPlugin(){
 				const that = this
 				janus.attach({
-						// opaqueId:opaqueId,
+						opaqueId:opaqueId,
 				        plugin: "janus.plugin.videocall",
 				        success: function(pluginHandle) {
 				            //插件初始化成功后 pluginHandle 就是全局句柄，通过 pluginHandle可以操作当前
@@ -265,7 +265,7 @@
 											jsep: jsep,
 											tracks: [
 												{ type: 'audio', capture: true, recv: true },
-												{ type: 'video', capture: true, recv: true },
+												{ type: 'video', capture: true, recv: true},
 												{ type: 'data' },
 											],
 											success: function(jsep) {

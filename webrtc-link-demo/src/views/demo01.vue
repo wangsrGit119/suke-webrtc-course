@@ -67,7 +67,6 @@
 					
 	
 		            stream.getTracks().forEach(trick => {
-						console.log(trick.getSettings())
 		                trick.stop()
 		            })
 					

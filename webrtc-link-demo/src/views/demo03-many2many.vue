@@ -12,14 +12,21 @@
 				<el-row>
 					<div id="allVideo" style="display: flex;flex-direction: row;justify-content: flex-start;flex-wrap: wrap;">
 						<video id="localdemo01" @click="getLocalStreamSettings()" autoplay  muted></video>
+						<label style="z-index:999;position: fixed;right: 25px;bottom: 30px;">
+							<el-button  type="warning" size="mini" @click="getLocalStreamSettings">本地媒体流最新参数</el-button>
+						</label>
 					</div>
 				</el-row>
 				<el-row>
 					<div class="frame-videos" id="frame-videos">
-						<div v-if="formInline.userId !== item.userId" :id="item.userId" @click="getRtcPeerInfo(item.userId)" v-for="(item,index) in roomUserList" :ref="item.userId" :key="item.userId">
+						<div v-if="formInline.userId !== item.userId" :id="item.userId"  v-for="(item,index) in roomUserList" :ref="item.userId" :key="item.userId">
 							<label>
 							{{item.nickname}}
-							 <span style="color: bisque;">{{item.bitrate}}</span>
+							 <span style="color: bisque;">
+							 {{item.bitrate}} 
+							 </span>
+							 <el-button type="info" size="mini" @click="getRtcPeerInfo(item.userId)">变更画面参数</el-button>
+							 <el-button type="warning" size="mini" @click="setBiterate(item.userId)">变更Bitrate</el-button>
 							</label>
 						</div>
 					</div>
@@ -225,6 +232,7 @@
 			}
 		},
 		created() {
+			const that = this
 			 initInnerLocalDevice()
 			 this.localDevice = localDevice
 			 console.log(localDevice)
@@ -244,6 +252,13 @@
 			 			 this.formInline.userId = result.visitorId
 			 		 }
 			 	  })
+				  
+		 if(this.talkingTimer){
+			 clearInterval(this.talkingTimer)
+		 }
+		 this.talkingTimer = setInterval(() =>{
+			 that.listenerIsTalking()
+		 },2000)
 		},
 		methods:{
 			joinRoom(formName){
@@ -260,7 +275,6 @@
 			async getRtcPeerInfo(uid){
 				let pcKey = this.formInline.userId+'-'+uid
 				let p = RtcPcMaps.get(pcKey)
-				await this.setBiterate(uid)
 				if(p){
 					const senders = p.getSenders();
 					const sender = senders.find((s) => s.track.kind === 'video')
@@ -617,6 +631,14 @@
 					that.lastPeerStatsMap.set(userId,res)
 				})
 			},
+			listenerIsTalking(){
+				RtcPcMaps.forEach((v,i) => {
+					let senders = v.getSenders()
+					//获取音频或者视频 判断是否激活状态 如果是则表明正在视频或者正在语音
+					
+				})
+				
+			},
 			getAudioStatus(domId){
 				console.log("domId",domId)
 				let video = document.getElementById(domId)
@@ -646,7 +668,7 @@
 		width: 300px;
 		height: 200px;
 		position: fixed;
-		bottom: 4px;
+		bottom: 24px;
 		right: 4px;
 	}
 	
@@ -669,6 +691,7 @@
 		position: absolute;
 		bottom: 2px;
 		left: 2px;
+		z-index: 9999;
 	}
 	.dialog-inner-container{
 		margin-left:35%;
