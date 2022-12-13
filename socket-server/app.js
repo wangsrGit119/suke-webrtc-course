@@ -2,7 +2,7 @@ const {hSet,hGetAll,hDel}  = require('./redis')
 const {getMsg,getParams} = require('./common')
 
 const http = require('http')
-var fs=require('fs');  
+var fs=require('fs');
 var express = require('express');
 const { log } = require('console');
 var app = express();
@@ -13,7 +13,7 @@ var app = express();
 app.use(express.static('./dist'));
 app.use(function (req, res,next) {
   res.sendfile('./dist/index.html');  //路径根据自己文件配置
-});  
+});
 var server=http.createServer(app)
 //socket server
 let io = require('socket.io')(server,{allowEIO3:true});
@@ -44,7 +44,7 @@ const roomKey = "meeting-room::"
  * @param {Object} nickname
  * @param {Object} pub
  */
-async function getUserDetalByUid(userId,roomId,nickname,pub){
+async function getUserDetailByUid(userId,roomId,nickname,pub){
 	let res = JSON.stringify(({"userId":userId,"roomId":roomId,"nickname":nickname,"pub":pub}))
 	return res
 }
@@ -64,25 +64,25 @@ async function onListener(s){
 	userMap.set(userId,s)
 	//room cache
 	if(roomId){
-		await hSet(roomKey+roomId,userId, await getUserDetalByUid(userId,roomId,nickname,pub))
+		await hSet(roomKey+roomId,userId, await getUserDetailByUid(userId,roomId,nickname,pub))
 		console.log("roomId",roomId)
 		oneToRoomMany(roomId,getMsg('join',userId+ ' join then room',200,{userId:userId,nickname:nickname}))
 	}
-	
+
 	s.on('msg', async (data) => {
 		  console.log("msg",data)
 		  await oneToRoomMany(roomId,data)
 	});
-	
-	s.on('disconnect', () => { 
+
+	s.on('disconnect', () => {
 		  console.log("client uid："+userId+" roomId: "+roomId+" 【"+nickname+"】 offline ")
 		  userMap.delete(userId)
 		  if(roomId){
 			  hDel(roomKey+roomId,userId)
 			  oneToRoomMany(roomId,getMsg('leave',userId+' leave the room ',200,{userId:userId,nickname:nickname}))
 		  }
-	});	
-	
+	});
+
 	s.on('roomUserList', async (data) => {
 		// console.log("roomUserList msg",data)
 		s.emit('roomUserList',await getRoomOnlyUserList(data['roomId']))
@@ -122,7 +122,7 @@ async function onListener(s){
 }
 
 /**
- * ono to one 
+ * ono to one
  * @author suke
  * @param {Object} uid
  * @param {Object} msg
@@ -146,7 +146,7 @@ async function getRoomUser(roomId){
 }
 
 /**
- * 获取房间用户列表(list) 
+ * 获取房间用户列表(list)
  * @author suke
  * @param {Object} roomId
  */
