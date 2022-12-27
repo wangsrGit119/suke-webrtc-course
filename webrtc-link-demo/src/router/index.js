@@ -45,6 +45,11 @@ let routes =  [
 	  name: 'demo04-janus-01',
 	  component: () => import("@/views/demo04-janus-01.vue"),
 	},
+	{
+	  path: '/demo04-janus-02',
+	  name: 'demo04-janus-02',
+	  component: () => import("@/views/demo04-janus-02.vue"),
+	},
 	
 ]
 

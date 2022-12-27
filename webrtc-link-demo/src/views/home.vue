@@ -28,7 +28,7 @@ export default {
 		  {id:5,title:"小型直播",description:"纯WebRTC小型直播、可切换虚拟背景",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);",uriType:'router',router:"/demo03-one2many"},
 		  {id:6,title:"多对多网络视频",description:"Mesh架构会议系统",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);",uriType:'router',router:"/demo03-many2many"},
 		  {id:7,title:"Janus-01",description:"Janus初步认识，初始化，插件使用；点对点音视频；媒体控制",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);",uriType:'router',router:"/demo04-janus-01"},
-		  {id:8,title:"Janus-02",description:"Janus会议室",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);",uriType:'router',router:"/demo04-janus-01"},
+		  {id:8,title:"Janus-02",description:"Janus会议室",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);",uriType:'router',router:"/demo04-janus-02"},
 		  
 		  
 		  

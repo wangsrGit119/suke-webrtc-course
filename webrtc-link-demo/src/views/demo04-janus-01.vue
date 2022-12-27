@@ -8,8 +8,8 @@
 		</el-row>
 		<el-row>
 			<div class="streams">
-				<video id="localDomId" style="object-fit: fill;" height="400px" width="50%" controls muted></video>
-				<video id="remoteVideo" style="object-fit: fill;" height="400px" width="50%" controls></video>
+				<video id="localDomId" style="object-fit: fill;" height="350px" width="50%" controls muted></video>
+				<video id="remoteVideo" style="object-fit: fill;" height="350px" width="50%" controls></video>
 			</div>
 		</el-row>
 		
@@ -140,7 +140,7 @@
 			  Janus.log("opaqueId",opaqueId)
 				// janus 注册并初始化
 			  janus = new Janus({
-						server: 'http://1.15.172.73:18088/janus',
+						server: 'http://192.168.101.99:18088/janus',
 						apisecret:'suc119119',
 						success: function() {
 								Janus.log("初始化成功")
