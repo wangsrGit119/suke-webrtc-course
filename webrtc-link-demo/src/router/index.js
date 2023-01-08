@@ -50,6 +50,16 @@ let routes =  [
 	  name: 'demo04-janus-02',
 	  component: () => import("@/views/demo04-janus-02.vue"),
 	},
+	{
+	  path: '/flv-player',
+	  name: 'flv-player',
+	  component: () => import("@/views/flv-player.vue"),
+	},
+	{
+	  path: '/srs-rtc-push',
+	  name: 'srs-rtc-push',
+	  component: () => import("@/views/srs-rtc-push.vue"),
+	},
 	
 ]
 

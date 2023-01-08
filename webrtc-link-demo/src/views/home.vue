@@ -29,6 +29,8 @@ export default {
 		  {id:6,title:"多对多网络视频",description:"Mesh架构会议系统",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);",uriType:'router',router:"/demo03-many2many"},
 		  {id:7,title:"Janus-01",description:"Janus初步认识，初始化，插件使用；点对点音视频；媒体控制",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);",uriType:'router',router:"/demo04-janus-01"},
 		  {id:8,title:"Janus-02",description:"Janus会议室",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);",uriType:'router',router:"/demo04-janus-02"},
+		  {id:9,title:"FLV播放器",description:"FLV播放器",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #4382f8 0%, #f9d423 100%);",uriType:'router',router:"/flv-player"},
+		  {id:10,title:"WebRTC+SRS推流",description:"使用WebRTC给SRS流媒体服务推流",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #4382f8 0%, #20f927 100%);",uriType:'router',router:"/srs-rtc-push"},
 		  
 		  
 		  

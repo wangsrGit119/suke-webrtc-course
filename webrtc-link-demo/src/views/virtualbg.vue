@@ -36,18 +36,18 @@
 <script>
 	import * as SFS from "@mediapipe/selfie_segmentation";
 
-	
+
 	var canvasElement ;
 	var canvasCtx ;
 	var image ;
-	var selfieSegmentation = null;	
+	var selfieSegmentation = null;
 	function handleError(error) {
 	    // alert("摄像头无法正常使用，请检查是否占用或缺失")
 	    console.error('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 	}
 	/**
 	 * @author suc
-	 * device list init 
+	 * device list init
 	 */
 	var localDevice = null;
 	function initInnerLocalDevice(){
@@ -56,7 +56,7 @@
 		        audioIn:[],
 		        videoIn: [],
 		        audioOut: []
-				
+
 		    }
 		    let constraints = {video:true, audio: true}
 		    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
@@ -65,13 +65,13 @@
 		    }
 		    navigator.mediaDevices.getUserMedia(constraints)
 		        .then(function(stream) {
-					
-	
+
+
 		            stream.getTracks().forEach(trick => {
 						// console.log(trick.getSettings())
 		                trick.stop()
 		            })
-					
+
 		            // List cameras and microphones.
 		            navigator.mediaDevices.enumerateDevices()
 		                .then(function(devices) {
@@ -93,7 +93,7 @@
 		                    });
 		                })
 		                .catch(handleError);
-		
+
 		        })
 				.then(()=>{
 					console.log(localDevice)
@@ -136,16 +136,16 @@
 			});
 			initInnerLocalDevice()
 			this.localDevice = localDevice;
-			
-			
+
+
 		},
 		mounted() {
 			this.initVb()
 		},
 		methods:{
-			
+
 			async onSubmit(){
-				
+
 				let domId = "localdemo01"
 				let video = document.getElementById(domId)
 				let stream = video.srcObject
@@ -162,7 +162,7 @@
 				video.srcObject =newStream
 				video.muted = true
 				this.virtualBg()
-				
+
 			},
 			/**
 			 * 获取设备 stream
@@ -208,7 +208,7 @@
 					console.log(file);
 					return `http://127.0.0.1:8081/${file}`;//ng  代理模型文件夹
 				  // return `https://cdn.jsdelivr.'net/npm/@mediapipe/selfie_segmentation@0.1.1632777926/${file}`;
-				}});				
+				}});
 				selfieSegmentation.setOptions({
 					modelSelection: 1,
 					minDetectionConfidence: 0.5,
@@ -246,7 +246,7 @@
 			      results.image, 0, 0, canvasElement.width, canvasElement.height);
 			  canvasCtx.restore();
 			},
-			
+
 			/**
 			 * 监听触发模型处理
 			 */
@@ -265,16 +265,16 @@
 							await selfieSegmentation.send({image: myvideo});
 						}
 						lastTime = now;
-						//无限定时循环 退出记得取消 cancelAnimationFrame() 
+						//无限定时循环 退出记得取消 cancelAnimationFrame()
 						that.rfId = requestAnimationFrame(getFrames);
 					};
 					getFrames()
 				})
 			}
-			
+
 
 		}
-		
+
 	}
 </script>
 
@@ -282,7 +282,7 @@
 	#localdemo01{
 		width: 500px;
 		height: 400px;
-		
+
 	}
 	#output_canvas{
 		background-color: aqua;

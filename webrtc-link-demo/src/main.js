@@ -14,8 +14,10 @@ console.log(process.env)
 
 let serverSocketUrl = process.env.NODE_ENV === 'development' ? 'ws://127.0.0.1:18080' : server
 Vue.prototype.$serverSocketUrl = serverSocketUrl;
-
-
+//SRS相关地址
+Vue.prototype.$srsServerAPIURL = 'http://192.168.101.99:1985/';
+Vue.prototype.$srsServerRTCURL = 'webrtc://192.168.101.99:8085/live/';
+Vue.prototype.$srsServerFlvURL = 'http://192.168.101.99:8085/live/';
 
 new Vue({
 	router,
