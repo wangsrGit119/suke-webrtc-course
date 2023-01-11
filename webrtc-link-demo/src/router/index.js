@@ -60,6 +60,11 @@ let routes =  [
 	  name: 'srs-rtc-push',
 	  component: () => import("@/views/srs-rtc-push.vue"),
 	},
+	{
+	  path: '/srs-live-room',
+	  name: 'srs-live-room',
+	  component: () => import("@/views/srs-live-room.vue"),
+	},
 	
 ]
 

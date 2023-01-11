@@ -31,6 +31,7 @@ export default {
 		  {id:8,title:"Janus-02",description:"Janus会议室",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);",uriType:'router',router:"/demo04-janus-02"},
 		  {id:9,title:"FLV播放器",description:"FLV播放器",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #4382f8 0%, #f9d423 100%);",uriType:'router',router:"/flv-player"},
 		  {id:10,title:"WebRTC+SRS推流",description:"使用WebRTC给SRS流媒体服务推流",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #4382f8 0%, #20f927 100%);",uriType:'router',router:"/srs-rtc-push"},
+		  {id:11,title:"WebRTC+SRS直播",description:"WebRTC+SRS实现低延迟直播",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #859ef8 0%, #e375f9 100%);",uriType:'router',router:"/srs-live-room"},
 		  
 		  
 		  
