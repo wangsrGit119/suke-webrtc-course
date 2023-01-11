@@ -89,36 +89,33 @@ async function onListener(s){
 	})
 	s.on('call',(data) => {
 		let targetUid = data['targetUid']
-		if(userMap.get(targetUid)){
-			oneToOne(targetUid,getMsg('call',"远程呼叫",200,data))
-		}else{
-			console.log(targetUid+ "不在线")
-		}
+		oneToOne(targetUid,getMsg('call',"远程呼叫",200,data))
 	})
 	s.on('candidate',(data) => {
 		let targetUid = data['targetUid']
-		if(userMap.get(targetUid)){
-			oneToOne(targetUid,getMsg('candidate',"ice candidate",200,data))
-		}else{
-			console.log(targetUid+ "不在线")
-		}
+		oneToOne(targetUid,getMsg('candidate',"ice candidate",200,data))
 	})
 	s.on('offer',(data) => {
 		let targetUid = data['targetUid']
-		if(userMap.get(targetUid)){
-			oneToOne(targetUid,getMsg('offer',"rtc offer",200,data))
-		}else{
-			console.log(targetUid+ "不在线")
-		}
+		oneToOne(targetUid,getMsg('offer',"rtc offer",200,data))
 	})
 	s.on('answer',(data) => {
 		let targetUid = data['targetUid']
-		if(userMap.get(targetUid)){
-			oneToOne(targetUid,getMsg('answer',"rtc answer",200,data))
-		}else{
-			console.log(targetUid+ "不在线")
-		}
+		oneToOne(targetUid,getMsg('answer',"rtc answer",200,data))
 	})
+	s.on('applyMic',(data) => {
+		let targetUid = data['targetUid']
+		oneToOne(targetUid,getMsg('applyMic',"apply mic",200,data))
+	})
+	s.on('acceptApplyMic',(data) => {
+		let targetUid = data['targetUid']
+		oneToOne(targetUid,getMsg('acceptApplyMic',"acceptApplyMic mic",200,data))
+	})
+	s.on('refuseApplyMic',(data) => {
+		let targetUid = data['targetUid']
+		oneToOne(targetUid,getMsg('refuseApplyMic',"refuseApplyMic mic",200,data))
+	})
+	
 }
 
 /**
