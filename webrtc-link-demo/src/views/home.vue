@@ -32,9 +32,8 @@ export default {
 		  {id:9,title:"FLV播放器",description:"FLV播放器",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #4382f8 0%, #f9d423 100%);",uriType:'router',router:"/flv-player"},
 		  {id:10,title:"WebRTC+SRS推流",description:"使用WebRTC给SRS流媒体服务推流",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #4382f8 0%, #20f927 100%);",uriType:'router',router:"/srs-rtc-push"},
 		  {id:11,title:"WebRTC+SRS直播",description:"WebRTC+SRS实现低延迟直播",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #859ef8 0%, #e375f9 100%);",uriType:'router',router:"/srs-live-room"},
-		  
-		  
-		  
+		  {id:12,title:"WebRTC+SRS会议系统",description:"WebRTC+SRS实现多媒体混合会议",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #859ef8 0%, #f974a9 100%);",uriType:'router',router:"/srs-meeting-room"},
+		  {id:13,title:"前端媒体流合并",description:"前端媒体画面合并",icon:"el-icon-video-camera",style:"background-image: linear-gradient(to right, #f84492 0%, #89f9ac 100%);",uriType:'router',router:"/stream-merger-push"},
 		  
 		  ]
 		  

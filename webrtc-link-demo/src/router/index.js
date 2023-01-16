@@ -65,6 +65,16 @@ let routes =  [
 	  name: 'srs-live-room',
 	  component: () => import("@/views/srs-live-room.vue"),
 	},
+	{
+	  path: '/srs-meeting-room',
+	  name: 'srs-meeting-room',
+	  component: () => import("@/views/srs-meeting-room.vue"),
+	},
+	{
+	  path: '/stream-merger-push',
+	  name: 'stream-merger-push',
+	  component: () => import("@/views/stream-merger-push.vue"),
+	},
 	
 ]
 
