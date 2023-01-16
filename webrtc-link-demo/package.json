@@ -17,6 +17,7 @@
     "events": "^3.3.0",
     "flv.js": "^1.6.2",
     "socket.io-client": "^4.5.1",
+    "video-stream-merger": "^4.0.1",
     "vue": "^2.6.10",
     "vue-router": "^3.2.0",
     "vue-select-image": "^1.9.0",
