@@ -19,6 +19,9 @@ Vue.prototype.$srsServerAPIURL = 'http://192.168.101.99:1985/';
 Vue.prototype.$srsServerRTCURL = 'webrtc://192.168.101.99:8085/live/';
 Vue.prototype.$srsServerFlvURL = 'http://192.168.101.99:8085/live/';
 
+//Janus地址
+Vue.prototype.$janusServerUrl = process.env.NODE_ENV === 'development' ? 'http://192.168.101.99:18088/janus' : 'http://192.168.101.99:18088/janus'
+
 new Vue({
 	router,
   render: h => h(App),

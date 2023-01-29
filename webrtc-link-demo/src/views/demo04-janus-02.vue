@@ -104,6 +104,7 @@
 				},
 				username:"suc",//用户名
 				userId:Date.now(),//用户随机ID
+				private_id:undefined,//janus分配ID
 				roomNumber:1001,//房间号
 				bitrateTimer:null,
 				videoStatus:true,//是否视频
@@ -114,6 +115,7 @@
 				shareStream:undefined,
 				shareStreamTag:false,
 				userList:[],
+				
 			}
 		},
 		created() {
@@ -149,7 +151,7 @@
 			  Janus.log("opaqueId",opaqueId)
 				// janus 注册并初始化
 			  janus = new Janus({
-						server: 'http://192.168.101.99:18088/janus',
+						server: that.$janusServerUrl,
 						apisecret:'suc119119',
 						success: function() {
 								Janus.log("初始化成功")
@@ -248,6 +250,7 @@
 				}
 				switch (event){
 				  case 'joined':	
+					that.private_id = msg['private_id']
 					that.publisherStream()
 				    //媒体发布者
 				    if(msg["publishers"]) {//新加入房间获取媒体发布者
@@ -299,24 +302,44 @@
 			 * @param user (publisher 媒体发布者)(id,display,audio,video)
 			 */
 			subscriberMedia(user){
+			  console.log("订阅用户信息",user)
 			  const that = this;
 			  var publisherPlugin = null
+			  var subscription = [];
 			  janus.attach({
 			    plugin: "janus.plugin.videoroom",
 			    success: function(pluginHandle) {
 			      publisherPlugin = pluginHandle
+				  let streams = user['streams']
+				  for(var i in streams) {
+				  	var stream = streams[i];
+				  	// If the publisher is VP8/VP9 and this is an older Safari, let's avoid video
+				  	if(stream.type === "video" && Janus.webRTCAdapter.browserDetails.browser === "safari" &&
+				  			(stream.codec === "vp9" || (stream.codec === "vp8" && !Janus.safariVp8))) {
+				  		console.warn("Publisher is using " + stream.codec.toUpperCase +
+				  			", but Safari doesn't support it: disabling video stream #" + stream.mindex);
+				  		continue;
+				  	}
+				  	subscription.push({
+				  		feed: user['id'],
+						mid: stream.mid	 //这里是可选项 如果不填则默认获取所有的流
+				  	});
+				  	publisherPlugin.rfid = user['id'];
+				  	publisherPlugin.rfdisplay = user.display;
+				  }
 			      var subscribe = {
 			        request: "join",
+					use_msid:'true',
 			        room: that.roomNumber,
-			        // pin: this.roomSecret,
+					autoupdate:true,//离开房间是否自动发送sdp
 			        ptype: "subscriber",
-			        feed: user['id'],
-			        private_id: user['id'],
+			        streams: subscription,//新版本API指定流订阅
+			        private_id: that.private_id,//Janus分配的用户ID
 			      };
 			      publisherPlugin.send({ message: subscribe });
 			    },
 			    error: function(error) {
-			      console.error("  插件加载异常", error);
+			      console.error("插件加载异常", error);
 			    },
 			    consentDialog: function(on) {
 			
@@ -367,6 +390,7 @@
 			      console.log("订阅媒体流变更信息 ：",obj)
 				  let mediaDomId = user['id']+'-video'
 				  if(mid == '3' && added){
+					  //谨记 这里我仅仅提供展示多个流的思路 自己的业务上有多个流具体更具业务容器定义
 					  that.setDomVideoTrick('multiStream',track)
 					  return 
 				  }

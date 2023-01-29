@@ -140,7 +140,7 @@
 			  Janus.log("opaqueId",opaqueId)
 				// janus 注册并初始化
 			  janus = new Janus({
-						server: 'http://192.168.101.99:18088/janus',
+						server: that.$janusServerUrl,
 						apisecret:'suc119119',
 						success: function() {
 								Janus.log("初始化成功")
