@@ -334,7 +334,7 @@
 					autoupdate:true,//离开房间是否自动发送sdp
 			        ptype: "subscriber",
 			        streams: subscription,//新版本API指定流订阅
-			        private_id: that.private_id,//Janus分配的用户ID
+			        private_id: that.private_id,//Janus分配的用户ID 可选 除非房间配置一定要
 			      };
 			      publisherPlugin.send({ message: subscribe });
 			    },
