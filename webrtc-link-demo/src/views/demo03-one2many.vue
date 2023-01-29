@@ -174,7 +174,7 @@
 				rtcPcParams:{
 					// iceTransportPolicy: 'relay', //强制走中继
 					iceServers: [
-						// {urls: 'turn:124.70.176.195:3478', username:'suc', credential:'suc001'}
+						// {urls: 'turn:x.x.x.x:3478', username:'suc', credential:'suc001'}
 					]
 				},
 				message:undefined,//弹幕
