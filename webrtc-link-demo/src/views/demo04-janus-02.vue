@@ -329,7 +329,7 @@
 				  }
 			      var subscribe = {
 			        request: "join",
-					use_msid:'true',
+					use_msid:true,
 			        room: that.roomNumber,
 					autoupdate:true,//离开房间是否自动发送sdp
 			        ptype: "subscriber",
