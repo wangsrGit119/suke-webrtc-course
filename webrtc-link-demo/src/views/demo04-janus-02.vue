@@ -329,7 +329,7 @@
 				  }
 			      var subscribe = {
 			        request: "join",
-					use_msid:true,
+					use_msid:false,//订阅是否应包含引用发布者的 msid；默认为 false
 			        room: that.roomNumber,
 					autoupdate:true,//离开房间是否自动发送sdp
 			        ptype: "subscriber",
