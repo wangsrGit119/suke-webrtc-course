@@ -20,7 +20,7 @@ Vue.prototype.$srsServerRTCURL = 'webrtc://192.168.101.99:8085/live/';
 Vue.prototype.$srsServerFlvURL = 'http://192.168.101.99:8085/live/';
 
 //Janus地址
-Vue.prototype.$janusServerUrl = process.env.NODE_ENV === 'development' ? 'http://192.168.101.99:18088/janus' : 'http://192.168.101.99:18088/janus'
+Vue.prototype.$janusServerUrl = process.env.NODE_ENV === 'development' ? 'https://nrtc.xxxxx.cn/suke-janus/janus/' : '/suke-janus/janus/'
 
 new Vue({
 	router,
