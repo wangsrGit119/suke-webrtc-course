@@ -499,7 +499,7 @@
 				    pc.addTrack(track);
 				}
 				this.localStream.getAudioTracks[0]
-				pc.setRemoteDescription(offer)
+				await pc.setRemoteDescription(offer)
 				let answer = await pc.createAnswer();
 				await pc.setLocalDescription(answer);
 				let params = {"targetUid":fromUid,"userId":localUid,"answer":answer}
